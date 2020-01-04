@@ -26,9 +26,9 @@ AnnealingSettings::AnnealingSettings(Bounds *bnds, Options *opts,
   // Main widget
   wgt = new QWidget(this);
   // Spin box
-  sboxThreads = new QSpinBox;
-  sboxThreads->setMinimum(1);
-  sboxThreads->setMaximumWidth(80);
+  spinThreads = new QSpinBox;
+  spinThreads->setMinimum(1);
+  spinThreads->setMaximumWidth(80);
   // Group box
   gboxOpts = new QGroupBox("Options");
   gboxBnds = new QGroupBox("Boundaries");
@@ -46,7 +46,7 @@ AnnealingSettings::AnnealingSettings(Bounds *bnds, Options *opts,
   QBoxLayout *hlayThread = new QBoxLayout(QBoxLayout::LeftToRight);
   hlayThread->addWidget(lblThreads);
   hlayThread->addStretch(1);
-  hlayThread->addWidget(sboxThreads);
+  hlayThread->addWidget(spinThreads);
   QLabel *lblSTemp = new QLabel("Start temp:");
   QBoxLayout *hlaySTemp = new QBoxLayout(QBoxLayout::LeftToRight);
   lSTemp = new QLineEdit;
@@ -194,6 +194,7 @@ void AnnealingSettings::pbOkClicked()
   options->tEnd = lFTemp->text().toDouble();
   options->reduce = lReduce->text().toDouble();
   options->maxIters = lIters->text().toInt();
+  options->nThreads = spinThreads->text().toInt();
   bounds->set(xmin, xmax);
 
   emit ready();

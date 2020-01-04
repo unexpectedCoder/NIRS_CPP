@@ -24,6 +24,9 @@ public:
   ~Optimizer();
 
   void optimize();
+  int getDimension() const;
+  const Bounds* getBounds() const;
+  const Options* getOptions() const;
 
 private:
   void setConnects(int i);
@@ -34,7 +37,7 @@ private:
   int nThreads;
   QMutex mutex;
   QThread **threads;
-  Annealing ** anns;
+  Annealing **anns;
 
   Result result;			// The best result from all threads
   Results results;		// Results from all threads

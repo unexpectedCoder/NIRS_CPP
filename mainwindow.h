@@ -5,7 +5,6 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPushButton>
-#include <QEvent>
 #include <QCheckBox>
 #include <QGroupBox>
 #include <QComboBox>
@@ -39,6 +38,7 @@ private:
   QWidget *centralWgt;
   QPushButton *pbSetOpti;
   QPushButton *pbInit;
+  QPushButton *pbShowOptimizer;
   QPushButton *pbExit;
   QBoxLayout *vButtonLay;
 
@@ -64,8 +64,8 @@ private slots:
   void pbExitClicked();
   void applySettings();
   void setUsingStandartFunc();
-
   void initOptimizer();
+  void showOptimizer();
 
 signals:
   void wantExit();

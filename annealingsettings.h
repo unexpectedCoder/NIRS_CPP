@@ -37,7 +37,7 @@ private:
   QGroupBox *gboxOpts, *gboxBnds;
   QBoxLayout *vLay, *hLay;
   QPushButton *pbOk, *pbCancel;
-  QSpinBox *sboxThreads;
+  QSpinBox *spinThreads;
   QLineEdit *lSTemp, *lFTemp;
   QLineEdit *lReduce, *lIters;
   QPushButton *pbAddBound, *pbRmBound;

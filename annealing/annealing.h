@@ -28,6 +28,8 @@ public:
 
   const Result& getResult() const;
   int getDimension() const;
+  const Bounds* getBounds() const;
+  const Options* getOptions() const;
   void printResult() const;
 
 private:						// Functions

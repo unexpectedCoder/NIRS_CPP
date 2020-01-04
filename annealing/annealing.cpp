@@ -83,15 +83,22 @@ Annealing::~Annealing()
 }
 
 
-const Result& Annealing::getResult() const
-{
+const Result& Annealing::getResult() const {
   return result;
 }
 
 
-int Annealing::getDimension() const
-{
+int Annealing::getDimension() const {
   return dim;
+}
+
+
+const Bounds *Annealing::getBounds() const {
+  return bounds;
+}
+
+const Options *Annealing::getOptions() const {
+  return options;
 }
 
 

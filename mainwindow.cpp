@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QMessageBox>
+#include <QString>
 #include <QStringList>
 
 #include <iostream>
@@ -36,9 +37,10 @@ MainWindow::MainWindow(QWidget *parent) :
   // Buttons
   pbSetOpti = new QPushButton("&Optimization Settings");
   pbInit = new QPushButton("&Initialize Optimizer");
+  pbShowOptimizer = new QPushButton("Sho&w Optimizer");
   pbExit = new QPushButton("&Exit");
   // Check boxes
-  chbStandardFuncs = new QCheckBox("Use &standart function");
+  chbStandardFuncs = new QCheckBox("Use &standard function");
   chbStandardFuncs->setCheckState(Qt::CheckState::Unchecked);
   // Combo boxes
   cbStandardFuncs = new QComboBox;
@@ -61,11 +63,12 @@ MainWindow::MainWindow(QWidget *parent) :
   hlaySettings->addWidget(lblUseDefFunc);
   hlaySettings->addWidget(spinUsrFuncDim);
   vlaySettings->addLayout(hlaySettings);
+  vlaySettings->addWidget(pbInit);
+  vlaySettings->addWidget(pbShowOptimizer);
   gboxSettings->setLayout(vlaySettings);
 
   vButtonLay = new QBoxLayout(QBoxLayout::TopToBottom);
   vButtonLay->addWidget(gboxSettings);
-  vButtonLay->addWidget(pbInit);
   vButtonLay->addStretch(1);
   vButtonLay->addWidget(pbExit);
 
@@ -80,9 +83,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
   delete ui;
-  delete dial;
-  delete bounds;
-  delete options;
   if (optimizer != nullptr) delete optimizer;
 }
 
@@ -97,6 +97,8 @@ void MainWindow::setConnects()
   connect(chbStandardFuncs, &QCheckBox::stateChanged, this, &MainWindow::setUsingStandartFunc);
   // Init
   connect(pbInit, &QPushButton::clicked, this, &MainWindow::initOptimizer);
+  // Show
+  connect(pbShowOptimizer, &QPushButton::clicked, this, &MainWindow::showOptimizer);
 }
 
 
@@ -184,6 +186,51 @@ void MainWindow::initOptimizer()
     return;
   }
 
+  isFunc = true;
   optimizer = new Optimizer(func, dim, bounds, options);
   // TODO: target function
+}
+
+
+void MainWindow::showOptimizer()
+{
+  if (!isOptionsBounds || !isFunc)
+  {
+    QMessageBox::warning(this, "Show Optimizer",
+                         "Boundaries, options or target function are not set!");
+    return;
+  }
+
+  int d = optimizer->getDimension();
+  Bounds *bnds = new Bounds(optimizer->getBounds());
+  Options *opt = new Options(optimizer->getOptions());
+
+  QString funcName;
+  if (isStandardFunc)
+    switch (funcType)
+    {
+    case OF_ROZEN: funcName = "<Rosenbrock>"; break;
+    case OF_ACKLEY: funcName = "<Ackley>"; break;
+    case OF_BILL: funcName = "<Bill>"; break;
+    case OF_BOOTH: funcName = "<Booth>"; break;
+    case OF_MATHIAS: funcName = "<Mathias>"; break;
+    }
+  else
+    funcName = "<User Defined Func>";
+
+  QString mess =
+      "Target function: " + funcName +
+      "\nTarget function dimension: " + QString::number(d) +
+      "\n\nBoundaries:";
+  for (int i = 0; i < d; ++i)
+    mess += "\n - x" + QString::number(i + 1) + ": (" +
+        QString::number(bnds->bmin[i]) + "; " + QString::number(bnds->bmax[i]) + ")";
+  mess += "\n\nOptions:"
+      "\n - start temperature: " + QString::number(opt->tStart) +
+      "\n - end temperature: " + QString::number(opt->tEnd) +
+      "\n - temperature reduce coefficien: " + QString::number(opt->reduce) +
+      "\n - max amount of iterations: " + QString::number(opt->maxIters) +
+      "\n - amount of threads: " + QString::number(opt->nThreads);
+
+  QMessageBox::information(this, "Show Optimizer", mess);
 }

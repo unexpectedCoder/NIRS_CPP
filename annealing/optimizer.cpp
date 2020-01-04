@@ -63,6 +63,27 @@ void Optimizer::optimize()
 }
 
 
+int Optimizer::getDimension() const {
+  if (anns != nullptr)
+    return anns[0]->getDimension();
+  return 0;
+}
+
+
+const Bounds *Optimizer::getBounds() const {
+  if (anns != nullptr)
+    return anns[0]->getBounds();
+  return nullptr;
+}
+
+
+const Options *Optimizer::getOptions() const {
+  if (anns != nullptr)
+    return anns[0]->getOptions();
+  return nullptr;
+}
+
+
 void Optimizer::setConnects(int i)
 {
   connect(threads[i], &QThread::started, anns[i], &Annealing::anneal);

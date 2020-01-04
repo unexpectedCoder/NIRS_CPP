@@ -9,6 +9,8 @@ Bounds::Bounds(const QVector<double> &bmin, const QVector<double> &bmax)
   if (bmin.size() != bmax.size())
     throw "Error in <Bounds>: boundaries lengths are not equal to each other!";
 
+  this->bmin = nullptr;
+  this->bmax = nullptr;
   dim = bmin.size();
   if (dim > 0)
   {
@@ -27,6 +29,8 @@ Bounds::Bounds(const QVector<double> &bmin, const QVector<double> &bmax)
 
 Bounds::Bounds(const Bounds &b)
 {
+  bmin = nullptr;
+  bmax = nullptr;
   dim = b.dim;
   if (dim > 0)
   {
@@ -43,6 +47,8 @@ Bounds::Bounds(const Bounds &b)
 
 Bounds::Bounds(const Bounds *b)
 {
+  bmin = nullptr;
+  bmax = nullptr;
   dim = b->dim;
   if (dim > 0)
   {
@@ -60,9 +66,7 @@ Bounds::Bounds(const Bounds *b)
 Bounds::~Bounds()
 {
   if (bmin != nullptr) delete [] bmin;
-  else delete bmin;
   if (bmax != nullptr) delete [] bmax;
-  else delete bmax;
 }
 
 
