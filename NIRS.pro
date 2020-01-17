@@ -17,8 +17,13 @@ SOURCES += \
         annealing/options.cpp \
         annealing/result.cpp \
         annealingsettings.cpp \
+        help_funcs.cpp \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        rocket/rocket.cpp \
+        rocket/rocket_types.h.cpp \
+        scene/scene.cpp \
+        scene/scene_types.cpp
 
 HEADERS += \
         annealing/annealing.h \
@@ -29,7 +34,12 @@ HEADERS += \
         annealing/options.h \
         annealing/result.h \
         annealingsettings.h \
-        mainwindow.h
+        help_funcs.h \
+        mainwindow.h \
+        rocket/rocket.h \
+        rocket/rocket_types.h \
+        scene/scene.h \
+        scene/scene_types.h
 
 FORMS += \
     annealingsettings.ui \
@@ -55,3 +65,7 @@ unix:!macx: PRE_TARGETDEPS += $$PWD/gsl/lib/libgslcblas.a
 unix:!macx: LIBS += -L$$PWD/qcustomplot/lib/ -lqcustomplot
 INCLUDEPATH += $$PWD/qcustomplot/include
 DEPENDPATH += $$PWD/qcustomplot/include
+
+DISTFILES += \
+    Scene/atmosphere.txt \
+    scene/atmosphere.txt
